@@ -1,0 +1,59 @@
+server:
+  port: 8080  # Port for the Gateway service
+
+spring:
+  application:
+    name: gateway-service  # Name of the service
+  cloud:
+    gateway:
+      routes:
+        - id: task-service-route
+          uri: http://localhost:8081  # Target service URL (Service 1)
+          predicates:
+            - Path=/task/**  # Match requests with /task/**
+        - id: category-service-route
+          uri: http://localhost:8082  # Target service URL (Service 2)
+          predicates:
+            - Path=/category/**  # Match requests with /category/**
+        - id: statistic-service-route
+          uri: http://localhost:8082  # Target service URL (Service 3)
+          predicates:
+            - Path=/statistic/**  # Match requests with /statistic/**
+        - id: user-service-route
+          uri: http://localhost:8082  # Target service URL (Service 4)
+          predicates:
+            - Path=/user/**  # Match requests with /user/**
+
+
+
+      # Global CORS configuration
+      default-filters:
+        - name: DedupeResponseHeader
+          args:
+            strategy: RETAIN_FIRST
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+            allowedHeaders:
+              - "*"
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG  # Enable detailed logs for Gateway
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/  # Eureka server URL
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: gateway,health,info  # Expose Gateway-specific Actuator endpoint
