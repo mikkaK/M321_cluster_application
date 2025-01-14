@@ -3,9 +3,12 @@ server:
 
 spring:
   application:
-    name: gateway-service  # Name of the service
+    name: gateway  # Name of the service
   cloud:
     gateway:
+      discovery:
+        locator:
+          enabled: true  # default false
       routes:
         - id: task-service-route
           uri: http://localhost:8081  # Target service URL (Service 1)
