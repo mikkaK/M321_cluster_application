@@ -5,6 +5,6 @@ CREATE TABLE task
     description VARCHAR(254),
     done        BOOLEAN,
     category    VARCHAR(255),
-    priority    VARCHAR(255),
+    user    VARCHAR(255),
     CONSTRAINT pk_task PRIMARY KEY (id)
 );
