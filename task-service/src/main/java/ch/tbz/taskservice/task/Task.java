@@ -31,5 +31,8 @@ public class Task extends AbstractEntity {
     @Column(name = "category")
     private String category;
 
+    @Column(name = "user")
+    private String user;
+
 
 }

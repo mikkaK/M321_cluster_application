@@ -19,4 +19,5 @@ public class TaskDTO extends AbstractDTO implements Serializable {
     private String description;
     private boolean done;
     private String category;
+    private String user;
 }
