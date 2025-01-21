@@ -1,6 +1,5 @@
 spring:
   application:
-    name: gateway
-  cloud:
-    config:
-      uri: http://localhost:8888  # URL of the Config Server
+    name: api-gateway
+  config:
+    import: configserver:http://localhost:8888 # Corrected the config server URL

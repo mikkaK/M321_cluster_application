@@ -4,6 +4,6 @@ import ch.tbz.statisticservice.core.generic.AbstractEntity;
 import ch.tbz.statisticservice.core.generic.AbstractService;
 import ch.tbz.statisticservice.statistic.dto.StatisticResponseDTO;
 
-public interface StatisticService extends AbstractService<AbstractEntity> {
-    StatisticResponseDTO findByUserAndCategory(Long userId, Long categoryId);
+public interface StatisticService {
+    StatisticResponseDTO findByUserAndCategory(String user, String category);
 }

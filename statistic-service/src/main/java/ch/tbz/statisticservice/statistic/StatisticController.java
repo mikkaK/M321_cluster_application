@@ -21,10 +21,10 @@ public class StatisticController {
     }
 
 
-    @GetMapping("/user/{id}/category/{id}")
-    public ResponseEntity<StatisticResponseDTO> getStatistics(@PathVariable Long userId, @PathVariable Long categoryId) {
-        log.trace("Getting statistics for userId: {} and categoryId: {}", userId, categoryId);
-        StatisticResponseDTO responseDTO = statisticService.findByUserAndCategory(userId, categoryId);
+    @GetMapping("/user/{user}/category/{category}")
+    public ResponseEntity<StatisticResponseDTO> getStatistics(@PathVariable String user, @PathVariable String category) {
+        log.trace("Getting statistics for userId: {} and categoryId: {}", user, category);
+        StatisticResponseDTO responseDTO = statisticService.findByUserAndCategory(user, category);
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 }

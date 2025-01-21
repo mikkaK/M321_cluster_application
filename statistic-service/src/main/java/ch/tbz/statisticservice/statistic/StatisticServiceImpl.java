@@ -3,8 +3,10 @@ package ch.tbz.statisticservice.statistic;
 import ch.tbz.statisticservice.core.generic.AbstractEntity;
 import ch.tbz.statisticservice.core.generic.AbstractRepository;
 import ch.tbz.statisticservice.core.generic.AbstractServiceImpl;
+import ch.tbz.statisticservice.task.Task;
 import ch.tbz.statisticservice.statistic.dto.StatisticDTO;
 import ch.tbz.statisticservice.statistic.dto.StatisticResponseDTO;
+import ch.tbz.statisticservice.task.TaskRepository;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
@@ -12,57 +14,47 @@ import java.util.List;
 
 @Service
 @Log4j2
-public class StatisticServiceImpl extends AbstractServiceImpl<AbstractEntity> implements StatisticService {
-    protected StatisticServiceImpl(AbstractRepository<AbstractEntity> repository) {
-        super(repository);
+public class StatisticServiceImpl implements StatisticService {
+
+    private final TaskRepository taskRepository;
+
+    protected StatisticServiceImpl(AbstractRepository<Task> repository, TaskRepository taskRepository) {
+        this.taskRepository = taskRepository;
     }
 
     @Override
-    public StatisticResponseDTO findByUserAndCategory(Long userId, Long categoryId) {
+    public StatisticResponseDTO findByUserAndCategory(String user, String category) {
         StatisticResponseDTO statistics = null;
 
-        if (categoryId != null){
-            List<Task> tasks = repository.findByUserIdAndCategoryId(userId, categoryId);
-            List<Task> unfinished = tasks.stream().filter(task -> task.status == Status.UNFINISHED);
-            List<Task> inProcess = tasks.stream().filter(task -> task.status == Status.IN_PROCESS);
-            List<Task> finished = tasks.stream().filter(task -> task.status == Status.FINISHED);
+        if (category != null){
+            List<Task> tasks = taskRepository.findByUserAndCategory(user, category);
+            List<Task> unfinished = tasks.stream().filter(task -> !task.isDone()).toList();
+            List<Task> finished = tasks.stream().filter(Task::isDone).toList();
 
             StatisticDTO unfinishedResponse = new StatisticDTO();
             unfinishedResponse.setStatus(Status.UNFINISHED);
             unfinishedResponse.setCount(unfinished.size());
-            unfinishedResponse.setCategoryId(categoryId);
-
-            StatisticDTO inProcessResponse = new StatisticDTO();
-            inProcessResponse.setStatus(Status.IN_PROCESS);
-            inProcessResponse.setCount(inProcess.size());
-            inProcessResponse.setCategoryId(categoryId);
 
             StatisticDTO finishedResponse = new StatisticDTO();
             finishedResponse.setStatus(Status.FINISHED);
             finishedResponse.setCount(finished.size());
-            finishedResponse.setCategoryId(categoryId);
 
-            statistics.setStatisticDTOs(List.of(unfinishedResponse, inProcessResponse, finishedResponse));
+            statistics.setStatisticDTOs(List.of(unfinishedResponse, finishedResponse));
 
         } else {
-            List<Task> tasks = repository.findByUserId(userId);
-            List<Task> unfinished = tasks.stream().filter(task -> task.status == Status.UNFINISHED);
-            List<Task> inProcess = tasks.stream().filter(task -> task.status == Status.IN_PROCESS);
-            List<Task> finished = tasks.stream().filter(task -> task.status == Status.FINISHED);
+            List<Task> tasks = this.taskRepository.findByUser(user);
+            List<Task> unfinished = tasks.stream().filter(task -> !task.isDone()).toList();
+            List<Task> finished = tasks.stream().filter(Task::isDone).toList();
 
             StatisticDTO unfinishedResponse = new StatisticDTO();
             unfinishedResponse.setStatus(Status.UNFINISHED);
             unfinishedResponse.setCount(unfinished.size());
 
-            StatisticDTO inProcessResponse = new StatisticDTO();
-            inProcessResponse.setStatus(Status.IN_PROCESS);
-            inProcessResponse.setCount(inProcess.size());
-
             StatisticDTO finishedResponse = new StatisticDTO();
             finishedResponse.setStatus(Status.FINISHED);
             finishedResponse.setCount(finished.size());
 
-            statistics.setStatisticDTOs(List.of(unfinishedResponse, inProcessResponse, finishedResponse));
+            statistics.setStatisticDTOs(List.of(unfinishedResponse, finishedResponse));
         }
 
         return statistics;

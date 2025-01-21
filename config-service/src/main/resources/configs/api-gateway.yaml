@@ -1,5 +1,5 @@
 server:
-  port: 8080  # Port for the Gateway service
+  port: 8089  # Port for the Gateway service
 
 spring:
   application:
@@ -11,7 +11,7 @@ spring:
           enabled: true  # default false
       routes:
         - id: task-service-route
-          uri: http://localhost:8081  # Target service URL (Service 1)
+          uri: http://localhost:8083  # Target service URL (Service 1)
           predicates:
             - Path=/task/**  # Match requests with /task/**
         - id: category-service-route
@@ -19,11 +19,11 @@ spring:
           predicates:
             - Path=/category/**  # Match requests with /category/**
         - id: statistic-service-route
-          uri: http://localhost:8082  # Target service URL (Service 3)
+          uri: http://localhost:8084  # Target service URL (Service 3)
           predicates:
             - Path=/statistic/**  # Match requests with /statistic/**
         - id: user-service-route
-          uri: http://localhost:8082  # Target service URL (Service 4)
+          uri: http://localhost:8081  # Target service URL (Service 4)
           predicates:
             - Path=/user/**  # Match requests with /user/**
 
