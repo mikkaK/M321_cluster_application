@@ -15,7 +15,7 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
-@Table(name = "user")
+@Table(name = "users")
 @JsonIgnoreProperties(value = { "id" })
 public class User extends AbstractEntity {
 
