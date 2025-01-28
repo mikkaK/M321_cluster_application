@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: microservice-statistics
+  labels:
+    app: microservice-statistics
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: microservice-statistics
+  template:
+    metadata:
+      labels:
+        app: microservice-statistics
+    spec:
+      containers:
+        - name: microservice-statistics
+          image: mikkakummer643/statistics-service:latest
+          ports:
+            - containerPort: 8084

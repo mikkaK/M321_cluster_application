@@ -10,10 +10,10 @@ spring:
       ddl-auto: update
   datasource:
     driverClassName: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/m321
+    url: jdbc:postgresql://postgres:5432/m321
     username: m321
     password: m321
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://eureka-service:8761/eureka/

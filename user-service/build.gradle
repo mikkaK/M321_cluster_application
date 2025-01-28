@@ -1,14 +1,14 @@
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '3.1.1'
-	id 'io.spring.dependency-management' version '1.1.0'
+	id 'org.springframework.boot' version '3.4.1'
+	id 'io.spring.dependency-management' version '1.1.7'
 }
 
-group = 'ch.letterix'
+group = 'ch.tbz'
 version = '0.0.1-SNAPSHOT'
 
 java {
-	sourceCompatibility = '17'
+	sourceCompatibility = '21'
 }
 
 repositories {
@@ -16,7 +16,7 @@ repositories {
 }
 
 ext {
-	set('springCloudVersion', "2022.0.3")
+	set('springCloudVersion', "2024.0.0")
 }
 
 dependencies {
@@ -70,48 +70,6 @@ tasks.withType(JavaExec) { javaExec ->
 		def envVars = readEnvironmentFileIfExists(".env")
 		for (envVar in envVars) {
 			environment(envVar.key, envVar.value)
-		}
-	}
-}
-tasks.register('build_and_push') {
-	group 'application'
-	description 'Builds and pushed docker image'
-	doLast {
-		exec {
-			executable "docker"
-			args "build", "-t", "registry.alasfood.ch/letterix_cover-letter_service", "."
-		}
-		exec {
-			executable "docker"
-			args "tag", "registry.alasfood.ch/letterix_cover-letter_service", "registry.alasfood.ch/letterix_cover-letter_service:latest"
-		}
-		exec {
-			executable "docker"
-			args "push", "registry.alasfood.ch/letterix_cover-letter_service:latest"
-		}
-	}
-}
-tasks.register('build_image') {
-	group 'application'
-	description 'Builds docker image'
-	doLast {
-		exec {
-			executable "docker"
-			args "build", "-t", "registry.alasfood.ch/letterix_cover-letter_service", "."
-		}
-	}
-}
-tasks.register('push_image') {
-	group 'application'
-	description 'Pushes docker image'
-	doLast {
-		exec {
-			executable "docker"
-			args "tag", "registry.alasfood.ch/letterix_cover-letter_service", "registry.alasfood.ch/letterix_cover-letter_service:latest"
-		}
-		exec {
-			executable "docker"
-			args "push", "registry.alasfood.ch/letterix_cover-letter_service:latest"
 		}
 	}
 }

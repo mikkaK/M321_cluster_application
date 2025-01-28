@@ -11,19 +11,19 @@ spring:
           enabled: true  # default false
       routes:
         - id: task-service-route
-          uri: http://localhost:8083  # Target service URL (Service 1)
+          uri: http://task-service:8083  # Target service URL (Service 1)
           predicates:
             - Path=/task/**  # Match requests with /task/**
         - id: category-service-route
-          uri: http://localhost:8082  # Target service URL (Service 2)
+          uri: http://category-service:8082  # Target service URL (Service 2)
           predicates:
             - Path=/category/**  # Match requests with /category/**
         - id: statistic-service-route
-          uri: http://localhost:8084  # Target service URL (Service 3)
+          uri: http://statistic-service:8084  # Target service URL (Service 3)
           predicates:
             - Path=/statistic/**  # Match requests with /statistic/**
         - id: user-service-route
-          uri: http://localhost:8081  # Target service URL (Service 4)
+          uri: http://user-service:8081  # Target service URL (Service 4)
           predicates:
             - Path=/user/**  # Match requests with /user/**
 
@@ -53,7 +53,7 @@ logging:
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka/  # Eureka server URL
+      defaultZone: http://eureka-service:8761/eureka/  # Eureka server URL
 
 management:
   endpoints:
