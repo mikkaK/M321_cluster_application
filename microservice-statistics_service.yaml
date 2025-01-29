@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: statistic-service
+  labels:
+    app: microservice-statistics
+spec:
+  type: ClusterIP
+  ports:
+    - protocol: TCP
+      port: 8084
+      targetPort: 8084
+  selector:
+    app: microservice-statistics

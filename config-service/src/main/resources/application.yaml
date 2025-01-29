@@ -1,0 +1,13 @@
+server:
+  port: 8888  # Config Server typically runs on port 8888
+
+spring:
+  profiles:
+    active: native
+  application:
+    name: config-server  # Name of the Config Server application
+  cloud:
+    config:
+      server:
+        native:
+          searchLocations: classpath:/configs

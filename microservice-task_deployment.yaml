@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: microservice-task
+  labels:
+    app: microservice-task
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: microservice-task
+  template:
+    metadata:
+      labels:
+        app: microservice-task
+    spec:
+      containers:
+        - name: microservice-task
+          image: mikkakummer643/task-service:latest
+          ports:
+            - containerPort: 8083
